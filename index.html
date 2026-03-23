@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="el">
+<head>
+    <meta charset="UTF-8">
+    <title>POS ΡΩΞΑΝΗ PRO</title>
+    <style>
+        body { background: #000; color: white; font-family: sans-serif; font-weight: bold; margin: 0; padding: 10px; overflow: hidden; }
+        .container { display: grid; grid-template-columns: 380px 1fr 1fr; gap: 15px; height: 95vh; }
+        .box { background: #1a1a1a; padding: 15px; border-radius: 8px; border: 2px solid #333; display: flex; flex-direction: column; overflow: hidden; }
+        h1, h3 { color: #00FF00; text-align: center; margin: 0 0 10px 0; }
+        #orderList { background: white; color: black; padding: 15px; border-radius: 5px; flex-grow: 1; overflow-y: auto; font-family: monospace; font-size: 14px; min-height: 200px; }
+        .btn-send { background: #007bff; color: white; padding: 18px; font-size: 16px; margin-top: 10px; border-radius: 8px; cursor: pointer; border: none; }
+        .btn-bill { background: #28a745; color: white; padding: 18px; font-size: 16px; margin-top: 5px; border-radius: 8px; cursor: pointer; border: none; }
+        .btn-clear { background: #dc3545; color: white; padding: 10px; margin-top: 5px; border-radius: 8px; cursor: pointer; border: none; }
+        .delivery-inputs { display: grid; grid-template-columns: 1fr 1fr; gap: 5px; margin-bottom: 10px; padding: 10px; background: #252525; border-radius: 5px; border: 1px solid #444; }
+        .delivery-inputs input { padding: 8px; background: #333; color: white; border: 1px solid #555; border-radius: 4px; font-size: 14px; width: 90%; }
+        .btn-delivery-start { grid-column: span 2; background: #ffc107; color: black; border: none; padding: 10px; border-radius: 4px; cursor: pointer; font-weight: bold; }
+        .table-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 5px; overflow-y: auto; }
+        .btn-table { position: relative; background: #333; color: white; padding: 10px 5px; border: 2px solid #444; height: 55px; font-size: 15px; cursor: pointer; }
+        .table-active { background: #856404 !important; border-color: #ffc107 !important; }
+        #categories { display: grid; grid-template-columns: repeat(4, 1fr); gap: 5px; }
+        #categories button { background: #444; color: white; font-size: 11px; min-height: 45px; cursor: pointer; border: none; border-radius: 4px; }
+        #products { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 10px; overflow-y: auto; }
+        #products button { background: #0056b3; color: white; min-height: 65px; font-size: 14px; cursor: pointer; border: none; border-radius: 4px; }
+        #extraModal { display: none; position: fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.9); z-index:1000; align-items:center; justify-content:center; }
+        .modal-content { background:#222; padding:20px; border-radius:10px; border:2px solid #00FF00; width:400px; text-align:center; }
+        #extraButtons { display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-top:15px; }
+    </style>
+</head>
+<body onload="initApp()">
+    <div class="container">
+        <div class="box">
+            <h1>ΡΩΞΑΝΗ</h1>
+            <div id="orderList"></div>
+            <button class="btn-send" onclick="sendToKitchen()">ΑΠΟΣΤΟΛΗ (ΚΟΥΖΙΝΑ)</button>
+            <button class="btn-bill" onclick="printFinalBill()">ΛΟΓΑΡΙΑΣΜΟΣ (ΣΥΝΟΛΟ)</button>
+            <button class="btn-clear" onclick="clearCurrentScreen()">ΑΚΥΡΩΣΗ ΝΕΩΝ</button>
+            <button onclick="window.location.href='admin.html'" style="margin-top:10px; background:#444; color:white; border:none; padding:8px; border-radius:5px; cursor:pointer;">⚙ ADMIN</button>
+        </div>
+        <div class="box">
+            <h3>DELIVERY / ΤΡΑΠΕΖΙΑ</h3>
+            <div class="delivery-inputs">
+                <input id="d_phone" placeholder="Τηλέφωνο" onkeyup="searchCustomer(this.value)" style="grid-column: span 2;">
+                <input id="d_name" placeholder="Όνομα Πελάτη" style="grid-column: span 2;">
+                <input id="d_addr" placeholder="Διεύθυνση" style="grid-column: span 1;">
+                <input id="d_floor" placeholder="Όροφος" style="grid-column: span 1;">
+                <input id="d_notes" placeholder="Σχόλια" style="grid-column: span 2;">
+                <button class="btn-delivery-start" onclick="startDelivery()">ΕΝΑΡΞΗ DELIVERY</button>
+            </div>
+            <div id="tableContainer" class="table-grid"></div>
+        </div>
+        <div class="box">
+            <h3>ΜΕΝΟΥ</h3>
+            <div id="categories"></div>
+            <div id="products"></div>
+        </div>
+    </div>
+    <div id="extraModal">
+        <div class="modal-content">
+            <h2 id="modalTitle">ΕΠΙΛΟΓΗ</h2>
+            <div id="extraButtons"></div>
+            <button onclick="closeModal()" style="margin-top:20px; width:100%; padding:10px; background:#666; color:white; border:none; cursor:pointer;">ΑΚΥΡΟ</button>
+        </div>
+    </div>
+    <script src="app.js"></script>
+</body>
+</html>

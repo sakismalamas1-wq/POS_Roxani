@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="el">
+<head>
+    <meta charset="UTF-8">
+    <title>Admin Διαχείριση - ΡΩΞΑΝΗ</title>
+    <style>
+        body { background: #111; color: white; font-family: Arial, sans-serif; padding: 20px; margin: 0; }
+        .admin-container { max-width: 900px; margin: 0 auto; }
+        .admin-box { background: #222; padding: 25px; border-radius: 10px; border: 1px solid #444; margin-bottom: 30px; }
+        h2 { color: orange; border-bottom: 2px solid #333; padding-bottom: 10px; margin-top: 0; }
+        h3 { color: #00FF00; margin-top: 0; }
+        .form-group { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 15px; }
+        input, select { padding: 12px; width: 100%; box-sizing: border-box; background: #333; color: white; border: 1px solid #555; border-radius: 4px; font-size: 16px; }
+        button { padding: 15px; cursor: pointer; border: none; font-weight: bold; border-radius: 5px; text-transform: uppercase; }
+        .btn-add { background: orange; color: black; width: 100%; font-size: 18px; }
+        .btn-save-print { background: #00FF00; color: black; width: 100%; font-size: 16px; }
+        .btn-back { background: #444; color: white; margin-bottom: 20px; display: inline-block; text-decoration: none; padding: 12px 20px; border-radius: 5px; }
+        .list-header { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; padding: 10px; background: #333; font-weight: bold; border-radius: 5px 5px 0 0; margin-top: 20px; }
+        .list-container { max-height: 400px; overflow-y: auto; border: 1px solid #333; }
+        .list-item { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; background: #1a1a1a; padding: 10px; border-bottom: 1px solid #333; align-items: center; }
+        .btn-del { background: #dc3545; color: white; padding: 8px; font-size: 11px; }
+    </style>
+</head>
+<body onload="initAdmin()">
+
+    <div class="admin-container">
+        <a href="index.html" class="btn-back">⬅ ΕΠΙΣΤΡΟΦΗ ΣΤΟ POS</a>
+
+        <div class="admin-box">
+            <h3>🖨️ Ρυθμίσεις Εκτύπωσης</h3>
+            <div class="form-group">
+                <div>
+                    <label style="font-size: 11px; color: #aaa;">ΕΝΤΑΣΗ (BOLD)</label>
+                    <select id="printWeight">
+                        <option value="900">Πολύ Έντονα (Black)</option>
+                        <option value="700">Έντονα (Bold)</option>
+                        <option value="400">Κανονικά (Normal)</option>
+                    </select>
+                </div>
+                <div>
+                    <label style="font-size: 11px; color: #aaa;">ΜΕΓΕΘΟΣ ΠΡΟΪΟΝΤΩΝ (PX)</label>
+                    <input type="number" id="printFontSize">
+                </div>
+            </div>
+            <div class="form-group">
+                <div>
+                    <label style="font-size: 11px; color: #aaa;">ΜΕΓΕΘΟΣ ΣΥΝΟΛΟΥ (PX)</label>
+                    <input type="number" id="printTotalSize">
+                </div>
+                <div style="display: flex; align-items: flex-end;">
+                    <button class="btn-save-print" onclick="savePrintSettings()">ΑΠΟΘΗΚΕΥΣΗ ΕΚΤΥΠΩΣΗΣ</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="admin-box">
+            <h2>🍎 Διαχείριση Μενού</h2>
+            <div class="form-group">
+                <input id="p_name" placeholder="Όνομα Προϊόντος">
+                <input id="p_price" type="number" step="0.1" placeholder="Τιμή (€)">
+            </div>
+            <div class="form-group">
+                <select id="p_cat"></select>
+                <input id="p_extras" placeholder="Extras (π.χ. ΠΑΤΑΤΕΣ, ΡΥΖΙ)">
+            </div>
+            <button class="btn-add" onclick="saveNewProduct()">ΠΡΟΣΘΗΚΗ ΣΤΟ ΜΕΝΟΥ</button>
+
+            <div class="list-header">
+                <span>Όνομα</span><span>Κατηγορία</span><span>Τιμή</span><span>Ενέργεια</span>
+            </div>
+            <div id="fullList" class="list-container"></div>
+        </div>
+    </div>
+
+    <script>
+        // Σταθερές κατηγορίες απευθείας εδώ για να μην κολλάει
+        var categories = ["ΚΡΥΑ", "ΖΕΣΤΑ", "ΣΑΛΑΤΕΣ", "ΜΕΡΙΔΕΣ", "ΤΕΜΑΧΙΑ", "ΣΠΕΣΙΑΛ", "ΜΑΓΕΙΡΕΥΤΑ", "ΘΑΛΑΣΣΙΝΑ", "ΟΥΖΑ", "ΤΣΙΠΟΥΡΑ", "ΜΠΥΡΕΣ", "ΡΕΤΣΙΝΕΣ", "ΚΡΑΣΙΑ", "ΑΝΑΨΥΚΤΙΚΑ", "DELIVERY", "ΔΙΑΦΟΡΑ"];
+        
+        var products = [];
+
+        function initAdmin() {
+            // 1. Γέμισμα Κατηγοριών
+            var catSelect = document.getElementById('p_cat');
+            catSelect.innerHTML = "";
+            categories.forEach(c => {
+                var opt = document.createElement('option');
+                opt.value = c; opt.innerText = c;
+                catSelect.appendChild(opt);
+            });
+
+            // 2. Φόρτωση Ρυθμίσεων Εκτύπωσης
+            var settings = JSON.parse(localStorage.getItem('roxani_print_settings')) || { weight: "900", fontSize: "15", totalSize: "22" };
+            document.getElementById('printWeight').value = settings.weight;
+            document.getElementById('printFontSize').value = settings.fontSize;
+            document.getElementById('printTotalSize').value = settings.totalSize;
+
+            // 3. Φόρτωση Προϊόντων
+            loadProducts();
+        }
+
+        function loadProducts() {
+            products = JSON.parse(localStorage.getItem('roxani_products')) || [];
+            refreshAdminList();
+        }
+
+        function refreshAdminList() {
+            var html = "";
+            products.forEach((p, i) => {
+                html += '<div class="list-item">' +
+                        '<span>' + p.name.toUpperCase() + '</span>' +
+                        '<span style="color:#888; font-size:12px;">' + p.cat + '</span>' +
+                        '<span>' + p.price.toFixed(2) + '€</span>' +
+                        '<button class="btn-del" onclick="deleteItem(' + i + ')">ΔΙΑΓΡΑΦΗ</button>' +
+                        '</div>';
+            });
+            document.getElementById('fullList').innerHTML = html;
+        }
+
+        function saveNewProduct() {
+            var name = document.getElementById('p_name').value;
+            var price = parseFloat(document.getElementById('p_price').value);
+            var cat = document.getElementById('p_cat').value;
+            var ex = document.getElementById('p_extras').value;
+
+            if(name && !isNaN(price)) {
+                var extrasArr = ex ? ex.split(",").map(s => s.trim()) : [];
+                products.push({ name: name, price: price, cat: cat, extras: extrasArr });
+                localStorage.setItem('roxani_products', JSON.stringify(products));
+                
+                document.getElementById('p_name').value = "";
+                document.getElementById('p_price').value = "";
+                document.getElementById('p_extras').value = "";
+                refreshAdminList();
+            } else { alert("Βάλε Όνομα και Τιμή!"); }
+        }
+
+        function deleteItem(index) {
+            if(confirm("Διαγραφή;")) {
+                products.splice(index, 1);
+                localStorage.setItem('roxani_products', JSON.stringify(products));
+                refreshAdminList();
+            }
+        }
+
+        function savePrintSettings() {
+            var settings = {
+                weight: document.getElementById('printWeight').value,
+                fontSize: document.getElementById('printFontSize').value,
+                totalSize: document.getElementById('printTotalSize').value
+            };
+            localStorage.setItem('roxani_print_settings', JSON.stringify(settings));
+            alert("Αποθηκεύτηκε!");
+        }
+    </script>
+</body>
+</html>
