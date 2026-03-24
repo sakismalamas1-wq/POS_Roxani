@@ -2,155 +2,176 @@
 <html lang="el">
 <head>
     <meta charset="UTF-8">
-    <title>Admin Διαχείριση - ΡΩΞΑΝΗ</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin - ΡΩΞΑΝΗ</title>
     <style>
-        body { background: #111; color: white; font-family: Arial, sans-serif; padding: 20px; margin: 0; }
-        .admin-container { max-width: 900px; margin: 0 auto; }
-        .admin-box { background: #222; padding: 25px; border-radius: 10px; border: 1px solid #444; margin-bottom: 30px; }
-        h2 { color: orange; border-bottom: 2px solid #333; padding-bottom: 10px; margin-top: 0; }
-        h3 { color: #00FF00; margin-top: 0; }
-        .form-group { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 15px; }
-        input, select { padding: 12px; width: 100%; box-sizing: border-box; background: #333; color: white; border: 1px solid #555; border-radius: 4px; font-size: 16px; }
-        button { padding: 15px; cursor: pointer; border: none; font-weight: bold; border-radius: 5px; text-transform: uppercase; }
-        .btn-add { background: orange; color: black; width: 100%; font-size: 18px; }
-        .btn-save-print { background: #00FF00; color: black; width: 100%; font-size: 16px; }
-        .btn-back { background: #444; color: white; margin-bottom: 20px; display: inline-block; text-decoration: none; padding: 12px 20px; border-radius: 5px; }
-        .list-header { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; padding: 10px; background: #333; font-weight: bold; border-radius: 5px 5px 0 0; margin-top: 20px; }
-        .list-container { max-height: 400px; overflow-y: auto; border: 1px solid #333; }
-        .list-item { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; background: #1a1a1a; padding: 10px; border-bottom: 1px solid #333; align-items: center; }
-        .btn-del { background: #dc3545; color: white; padding: 8px; font-size: 11px; }
+        body { background: #121212; color: white; font-family: sans-serif; padding: 10px; margin: 0; }
+        .admin-box { background: #1e1e1e; padding: 15px; border-radius: 10px; border: 1px solid #333; max-width: 600px; margin: auto; }
+        h2 { color: #00FF00; text-align: center; }
+        
+        .input-group { margin-bottom: 15px; display: flex; flex-direction: column; }
+        label { margin-bottom: 5px; color: #aaa; font-size: 14px; }
+        input, select { padding: 12px; border-radius: 5px; border: 1px solid #444; background: #2a2a2a; color: white; font-size: 16px; }
+        
+        .btn { padding: 15px; border: none; border-radius: 5px; font-weight: bold; cursor: pointer; width: 100%; margin-top: 10px; font-size: 16px; }
+        .btn-add { background: #28a745; color: white; }
+        .btn-back { background: #444; color: white; margin-top: 20px; }
+        
+        /* BACKUP SECTION */
+        .backup-section { margin-top: 30px; padding: 15px; background: #252525; border: 1px dashed #555; border-radius: 8px; text-align: center; }
+        .btn-export { background: #007bff; color: white; margin-bottom: 15px; }
+        .import-label { display: block; background: #6c757d; color: white; padding: 10px; border-radius: 5px; cursor: pointer; margin-top: 10px; }
+        
+        .product-item { background: #2a2a2a; padding: 10px; margin-top: 10px; border-radius: 5px; display: flex; justify-content: space-between; align-items: center; border-left: 4px solid #00FF00; }
+        .btn-del { background: #dc3545; color: white; padding: 5px 10px; border-radius: 4px; border: none; }
     </style>
 </head>
-<body onload="initAdmin()">
+<body>
 
-    <div class="admin-container">
-        <a href="index.html" class="btn-back">⬅ ΕΠΙΣΤΡΟΦΗ ΣΤΟ POS</a>
-
-        <div class="admin-box">
-            <h3>🖨️ Ρυθμίσεις Εκτύπωσης</h3>
-            <div class="form-group">
-                <div>
-                    <label style="font-size: 11px; color: #aaa;">ΕΝΤΑΣΗ (BOLD)</label>
-                    <select id="printWeight">
-                        <option value="900">Πολύ Έντονα (Black)</option>
-                        <option value="700">Έντονα (Bold)</option>
-                        <option value="400">Κανονικά (Normal)</option>
-                    </select>
-                </div>
-                <div>
-                    <label style="font-size: 11px; color: #aaa;">ΜΕΓΕΘΟΣ ΠΡΟΪΟΝΤΩΝ (PX)</label>
-                    <input type="number" id="printFontSize">
-                </div>
-            </div>
-            <div class="form-group">
-                <div>
-                    <label style="font-size: 11px; color: #aaa;">ΜΕΓΕΘΟΣ ΣΥΝΟΛΟΥ (PX)</label>
-                    <input type="number" id="printTotalSize">
-                </div>
-                <div style="display: flex; align-items: flex-end;">
-                    <button class="btn-save-print" onclick="savePrintSettings()">ΑΠΟΘΗΚΕΥΣΗ ΕΚΤΥΠΩΣΗΣ</button>
-                </div>
-            </div>
-        </div>
-
-        <div class="admin-box">
-            <h2>🍎 Διαχείριση Μενού</h2>
-            <div class="form-group">
-                <input id="p_name" placeholder="Όνομα Προϊόντος">
-                <input id="p_price" type="number" step="0.1" placeholder="Τιμή (€)">
-            </div>
-            <div class="form-group">
-                <select id="p_cat"></select>
-                <input id="p_extras" placeholder="Extras (π.χ. ΠΑΤΑΤΕΣ, ΡΥΖΙ)">
-            </div>
-            <button class="btn-add" onclick="saveNewProduct()">ΠΡΟΣΘΗΚΗ ΣΤΟ ΜΕΝΟΥ</button>
-
-            <div class="list-header">
-                <span>Όνομα</span><span>Κατηγορία</span><span>Τιμή</span><span>Ενέργεια</span>
-            </div>
-            <div id="fullList" class="list-container"></div>
-        </div>
+<div class="admin-box">
+    <h2>⚙ ΔΙΑΧΕΙΡΙΣΗ ΜΕΝΟΥ</h2>
+    
+    <div class="input-group">
+        <label>Όνομα Φαγητού / Ποτού:</label>
+        <input type="text" id="p_name" placeholder="π.χ. Σνίτσελ Χοιρινό">
+    </div>
+    
+    <div class="input-group">
+        <label>Κατηγορία:</label>
+        <select id="p_cat">
+            <option value="ΨΩΜΙ ΠΙΤΑ">ΚΡΥΑ</option>
+            <option value="ΚΡΥΑ">ΚΡΥΑ</option>
+            <option value="ΖΕΣΤΑ">ΖΕΣΤΑ</option>
+            <option value="ΣΑΛΑΤΕΣ">ΣΑΛΑΤΕΣ</option>
+            <option value="ΣΧΑΡΑΣ">ΣΧΑΡΑΣ</option>
+            <option value="ΤΕΜΑΧΙΑ">ΤΕΜΑΧΙΑ</option>
+            <option value="ΣΠΕΣΙΑΛ">ΖΕΣΤΑ</option>
+            <option value="ΜΑΓΕΙΡΕΥΤΑ">ΜΑΓΕΙΡΕΥΤΑ</option>
+            <option value="ΘΑΛΑΣΣΙΝΑ">ΘΑΛΑΣΣΙΝΑ</option>
+            <option value="ΣΑΝΤΟΥΙΤΣ">ΣΑΝΤΟΥΙΤΣ</option>
+            <option value="ΟΥΖΑ ΤΣΙΠΟΥΡΑ">ΟΥΖΑ ΤΣΙΠΟΥΡΑ</option>
+            <option value="ΜΠΥΡΕΣ">ΜΠΥΡΕΣ</option>
+            <option value="ΚΡΑΣΙΑ ΡΕΤΣΙΝΕΣ">ΚΡΑΣΙΑ ΡΕΤΣΙΝΕΣ</option>
+            <option value="ΑΝΑΨΥΚΤΙΚΑ">ΑΝΑΨΥΚΤΙΚΑ</option>
+            <option value="DEKIVERY">DELIVERY</option>
+            <option value="ΔΙΑΦΟΡΑ">ΔΑΦΟΡΑ</option>
+        </select>
     </div>
 
-    <script>
-        // Σταθερές κατηγορίες απευθείας εδώ για να μην κολλάει
-        var categories = ["ΚΡΥΑ", "ΖΕΣΤΑ", "ΣΑΛΑΤΕΣ", "ΜΕΡΙΔΕΣ", "ΤΕΜΑΧΙΑ", "ΣΠΕΣΙΑΛ", "ΜΑΓΕΙΡΕΥΤΑ", "ΘΑΛΑΣΣΙΝΑ", "ΟΥΖΑ", "ΤΣΙΠΟΥΡΑ", "ΜΠΥΡΕΣ", "ΡΕΤΣΙΝΕΣ", "ΚΡΑΣΙΑ", "ΑΝΑΨΥΚΤΙΚΑ", "DELIVERY", "ΨΩΜΙ ΠΙΤΑ"];
+    <div class="input-group">
+        <label>Τιμή (€):</label>
+        <input type="number" id="p_price" step="0.10" placeholder="0.00">
+    </div>
+
+    <div class="input-group">
+        <label>Extras (π.χ. Πατάτες|0.60, Ψωμί|0.50):</label>
+        <input type="text" id="p_extras" placeholder="Όνομα|Τιμή χωρισμένα με κόμμα">
+    </div>
+
+    <button class="btn btn-add" onclick="addProduct()">ΠΡΟΣΘΗΚΗ ΣΤΟ ΜΕΝΟΥ</button>
+
+    <hr style="margin: 25px 0; border: 0; border-top: 1px solid #444;">
+
+    <div class="backup-section">
+        <h3>💾 ΜΕΤΑΦΟΡΑ ΜΕΝΟΥ</h3>
+        <p style="font-size: 12px; color: #888;">Χρησιμοποίησε αυτά για να στείλεις το μενού στο κινητό ή σε άλλο PC μέσω USB.</p>
         
-        var products = [];
+        <button class="btn btn-export" onclick="exportMenu()">ΑΠΟΘΗΚΕΥΣΗ ΣΕ ΑΡΧΕΙΟ (.json)</button>
+        
+        <label class="import-label">
+            📂 ΦΟΡΤΩΣΗ ΑΠΟ ΑΡΧΕΙΟ
+            <input type="file" id="importFile" style="display: none;" onchange="importMenu(event)">
+        </label>
+    </div>
 
-        function initAdmin() {
-            // 1. Γέμισμα Κατηγοριών
-            var catSelect = document.getElementById('p_cat');
-            catSelect.innerHTML = "";
-            categories.forEach(c => {
-                var opt = document.createElement('option');
-                opt.value = c; opt.innerText = c;
-                catSelect.appendChild(opt);
-            });
+    <button class="btn btn-back" onclick="window.location.href='index.html'">⬅ ΕΠΙΣΤΡΟΦΗ ΣΤΟ POS</button>
 
-            // 2. Φόρτωση Ρυθμίσεων Εκτύπωσης
-            var settings = JSON.parse(localStorage.getItem('roxani_print_settings')) || { weight: "900", fontSize: "15", totalSize: "22" };
-            document.getElementById('printWeight').value = settings.weight;
-            document.getElementById('printFontSize').value = settings.fontSize;
-            document.getElementById('printTotalSize').value = settings.totalSize;
+    <div id="productList" style="margin-top: 20px;">
+        </div>
+</div>
 
-            // 3. Φόρτωση Προϊόντων
-            loadProducts();
+<script>
+    let products = JSON.parse(localStorage.getItem('roxani_products')) || [];
+
+    function addProduct() {
+        const name = document.getElementById('p_name').value;
+        const cat = document.getElementById('p_cat').value;
+        const price = parseFloat(document.getElementById('p_price').value);
+        const extrasRaw = document.getElementById('p_extras').value;
+
+        if(!name || isNaN(price)) return alert("Βάλε όνομα και τιμή!");
+
+        // Μετατροπή των extras σε λίστα
+        const extras = extrasRaw ? extrasRaw.split(',').map(s => s.trim()) : [];
+
+        products.push({ name, category: cat, price, extras });
+        saveAndRender();
+        
+        // Καθαρισμός φορμας
+        document.getElementById('p_name').value = "";
+        document.getElementById('p_price').value = "";
+        document.getElementById('p_extras').value = "";
+    }
+
+    function saveAndRender() {
+        localStorage.setItem('roxani_products', JSON.stringify(products));
+        renderProducts();
+    }
+
+    function renderProducts() {
+        const list = document.getElementById('productList');
+        list.innerHTML = "<h3>ΛΙΣΤΑ ΠΡΟΪΟΝΤΩΝ:</h3>";
+        products.forEach((p, index) => {
+            list.innerHTML += `
+                <div class="product-item">
+                    <span><strong>${p.name}</strong> - ${p.price.toFixed(2)}€ (${p.category})</span>
+                    <button class="btn-del" onclick="deleteProduct(${index})">ΔΙΑΓΡΑΦΗ</button>
+                </div>
+            `;
+        });
+    }
+
+    function deleteProduct(index) {
+        if(confirm("Διαγραφή;")) {
+            products.splice(index, 1);
+            saveAndRender();
         }
+    }
 
-        function loadProducts() {
-            products = JSON.parse(localStorage.getItem('roxani_products')) || [];
-            refreshAdminList();
-        }
+    // --- ΛΕΙΤΟΥΡΓΙΕΣ BACKUP ---
 
-        function refreshAdminList() {
-            var html = "";
-            products.forEach((p, i) => {
-                html += '<div class="list-item">' +
-                        '<span>' + p.name.toUpperCase() + '</span>' +
-                        '<span style="color:#888; font-size:12px;">' + p.cat + '</span>' +
-                        '<span>' + p.price.toFixed(2) + '€</span>' +
-                        '<button class="btn-del" onclick="deleteItem(' + i + ')">ΔΙΑΓΡΑΦΗ</button>' +
-                        '</div>';
-            });
-            document.getElementById('fullList').innerHTML = html;
-        }
+    function exportMenu() {
+        if (products.length === 0) return alert("Το μενού είναι άδειο!");
+        const dataStr = JSON.stringify(products);
+        const blob = new Blob([dataStr], { type: "application/json" });
+        const url = URL.createObjectURL(blob);
+        const link = document.createElement("a");
+        link.href = url;
+        link.download = "menu_roxani.json";
+        link.click();
+    }
 
-        function saveNewProduct() {
-            var name = document.getElementById('p_name').value;
-            var price = parseFloat(document.getElementById('p_price').value);
-            var cat = document.getElementById('p_cat').value;
-            var ex = document.getElementById('p_extras').value;
-
-            if(name && !isNaN(price)) {
-                var extrasArr = ex ? ex.split(",").map(s => s.trim()) : [];
-                products.push({ name: name, price: price, cat: cat, extras: extrasArr });
-                localStorage.setItem('roxani_products', JSON.stringify(products));
-                
-                document.getElementById('p_name').value = "";
-                document.getElementById('p_price').value = "";
-                document.getElementById('p_extras').value = "";
-                refreshAdminList();
-            } else { alert("Βάλε Όνομα και Τιμή!"); }
-        }
-
-        function deleteItem(index) {
-            if(confirm("Διαγραφή;")) {
-                products.splice(index, 1);
-                localStorage.setItem('roxani_products', JSON.stringify(products));
-                refreshAdminList();
+    function importMenu(event) {
+        const file = event.target.files[0];
+        if (!file) return;
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            try {
+                const importedData = JSON.parse(e.target.result);
+                if (Array.isArray(importedData)) {
+                    products = importedData;
+                    saveAndRender();
+                    alert("Το μενού φορτώθηκε επιτυχώς!");
+                }
+            } catch (err) {
+                alert("Λάθος αρχείο!");
             }
-        }
+        };
+        reader.readAsText(file);
+    }
 
-        function savePrintSettings() {
-            var settings = {
-                weight: document.getElementById('printWeight').value,
-                fontSize: document.getElementById('printFontSize').value,
-                totalSize: document.getElementById('printTotalSize').value
-            };
-            localStorage.setItem('roxani_print_settings', JSON.stringify(settings));
-            alert("Αποθηκεύτηκε!");
-        }
-    </script>
+    renderProducts();
+</script>
+
 </body>
 </html>
