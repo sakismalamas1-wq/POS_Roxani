@@ -1,41 +1,22 @@
-// ΑΡΧΙΚΟΠΟΙΗΣΗ ΔΕΔΟΜΕΝΩΝ
-var products = JSON.parse(localStorage.getItem('roxani_products')) || [];
-var tableOrders = JSON.parse(localStorage.getItem('roxani_table_orders')) || {}; 
-var currentOrder = []; 
-var currentTable = null; 
-var pendingItem = null;
-var selectedExtras = [];
+// 1. Φόρτωση δεδομένων από τη μνήμη του browser
+let products = JSON.parse(localStorage.getItem('roxani_products')) || [];
+let currentOrder = [];
+let selectedExtras = [];
+let pendingItem = null;
 
-// ΕΚΚΙΝΗΣΗ
+// 2. Η πρώτη λειτουργία που τρέχει μόλις ανοίξει η σελίδα
 function initApp() {
-    renderTables();
     renderCategories();
 }
 
-// ΕΜΦΑΝΙΣΗ ΤΡΑΠΕΖΙΩΝ
-function renderTables() {
-    const container = document.getElementById('tableContainer');
-    if(!container) return;
-    const allowedTables = [1,2,3,4,5,6,7,8,11,12,13,14,15,21,22,23,24,25,26,27,28,29,30,31,41,42,43,44,45];
-    let html = "";
-    allowedTables.forEach(i => {
-        const isOccupied = (tableOrders[i] && tableOrders[i].length > 0);
-        html += `<button class="btn-table ${isOccupied ? 'table-active' : ''}" onclick="setTable(${i})">${i}</button>`;
-    });
-    container.innerHTML = html;
-}
-
-function setTable(n) {
-    currentTable = n;
-    alert("ΕΠΙΛΕΧΘΗΚΕ ΤΡΑΠΕΖΙ: " + n);
-    // Αν το τραπέζι έχει ήδη παραγγελία, μπορούμε να την φορτώσουμε εδώ
-}
-
-// ΕΜΦΑΝΙΣΗ ΚΑΤΗΓΟΡΙΩΝ
+// 3. Εμφάνιση των Κατηγοριών (Πρέπει να είναι ίδιες με το Admin)
 function renderCategories() {
     const container = document.getElementById('categories');
     if(!container) return;
+    
+    // Εδώ βάλε τις κατηγορίες που έγραψες στο Admin
     const cats = ["ΚΡΥΑ", "ΖΕΣΤΑ", "ΣΑΛΑΤΕΣ", "ΣΧΑΡΑΣ", "ΤΕΜΑΧΙΑ", "ΜΑΓΕΙΡΕΥΤΑ", "ΘΑΛΑΣΣΙΝΑ", "ΠΟΤΑ", "ΑΝΑΨΥΚΤΙΚΑ"];
+    
     let html = "";
     cats.forEach(c => {
         html += `<button onclick="showProducts('${c}')">${c}</button>`;
@@ -43,20 +24,24 @@ function renderCategories() {
     container.innerHTML = html;
 }
 
-// ΕΜΦΑΝΙΣΗ ΠΡΟΪΟΝΤΩΝ
+// 4. Εμφάνιση Προϊόντων ανά κατηγορία
 function showProducts(cat) {
     const container = document.getElementById('products');
-    let html = "";
+    if(!container) return;
+    
     const filtered = products.filter(p => p.category === cat);
+    let html = "";
     
     filtered.forEach(p => {
-        html += `<button onclick='handleProductClick(${JSON.stringify(p)})'>${p.name}<br>${p.price.toFixed(2)}€</button>`;
+        const data = JSON.stringify(p).replace(/"/g, '&quot;');
+        html += `<button onclick="handleProductClick('${data}')">${p.name}<br>${p.price.toFixed(2)}€</button>`;
     });
     container.innerHTML = html;
 }
 
-// ΟΤΑΝ ΠΑΤΑΜΕ ΕΝΑ ΠΡΟΪΟΝ
-function handleProductClick(prod) {
+// 5. Όταν πατάμε ένα προϊόν
+function handleProductClick(pString) {
+    const prod = JSON.parse(pString.replace(/&quot;/g, '"'));
     if (prod.extras && prod.extras.length > 0) {
         pendingItem = prod;
         selectedExtras = [];
@@ -66,15 +51,40 @@ function handleProductClick(prod) {
     }
 }
 
+// 6. Πρόσθεσε στην παραγγελία
+function addToOrder(name, price) {
+    currentOrder.push({ name, price });
+    renderOrder();
+}
+
+// 7. Εμφάνιση της λίστας παραγγελίας στην οθόνη
+function renderOrder() {
+    const list = document.getElementById('orderList');
+    if(!list) return;
+    let total = 0;
+    let html = "";
+    currentOrder.forEach(item => {
+        html += `<div style="display:flex; justify-content:space-between; margin-bottom:5px; border-bottom:1px dotted #555;">
+                    <span>${item.name}</span>
+                    <span>${item.price.toFixed(2)}€</span>
+                 </div>`;
+        total += item.price;
+    });
+    html += `<div style="text-align:right; margin-top:10px; font-size:18px; color:#00FF00;"><strong>ΣΥΝΟΛΟ: ${total.toFixed(2)}€</strong></div>`;
+    list.innerHTML = html;
+}
+
+// Λειτουργίες για τα Extras (Modal)
 function openExtraModal(prod) {
     document.getElementById('extraModal').style.display = 'flex';
     document.getElementById('modalTitle').innerText = prod.name;
     const container = document.getElementById('extraButtons');
     let html = "";
     prod.extras.forEach((ex, i) => {
-        html += `<button id="ex-${i}" style="background:#444; color:white; padding:15px;" onclick="toggleExtra('${ex}', 'ex-${i}')">${ex}</button>`;
+        let label = ex.includes('|') ? ex.split('|')[0] + " (+" + ex.split('|')[1] + "€)" : ex;
+        html += `<button id="ex-${i}" style="background:#444; color:white; padding:15px;" onclick="toggleExtra('${ex}', 'ex-${i}')">${label}</button>`;
     });
-    html += `<button onclick="finishExtras()" style="grid-column:span 2; background:#00FF00; color:black; padding:15px;">ΠΡΟΣΘΗΚΗ</button>`;
+    html += `<button onclick="finishExtras()" style="grid-column:span 2; background:#00FF00; color:black; font-weight:bold; padding:15px; margin-top:10px;">ΠΡΟΣΘΗΚΗ</button>`;
     container.innerHTML = html;
 }
 
@@ -91,34 +101,16 @@ function toggleExtra(ex, id) {
 }
 
 function finishExtras() {
-    let extraPrice = 0;
+    let extraTotal = 0;
     let names = [];
     selectedExtras.forEach(ex => {
         let parts = ex.split('|');
         names.push(parts[0]);
-        if(parts[1]) extraPrice += parseFloat(parts[1]);
+        if(parts[1]) extraTotal += parseFloat(parts[1]);
     });
-    
-    const name = pendingItem.name + (names.length ? " (" + names.join(",") + ")" : "");
-    addToOrder(name, pendingItem.price + extraPrice);
+    const finalName = pendingItem.name + (names.length ? " (" + names.join(",") + ")" : "");
+    addToOrder(finalName, pendingItem.price + extraTotal);
     closeModal();
-}
-
-function addToOrder(name, price) {
-    currentOrder.push({ name, price });
-    renderOrder();
-}
-
-function renderOrder() {
-    const list = document.getElementById('orderList');
-    let total = 0;
-    let html = "";
-    currentOrder.forEach((item, idx) => {
-        html += `<div>${item.name} - ${item.price.toFixed(2)}€</div>`;
-        total += item.price;
-    });
-    html += `<hr><strong>ΣΥΝΟΛΟ: ${total.toFixed(2)}€</strong>`;
-    list.innerHTML = html;
 }
 
 function closeModal() { document.getElementById('extraModal').style.display = 'none'; }
