@@ -4,81 +4,34 @@
     <meta charset="UTF-8">
     <title>POS ΡΩΞΑΝΗ PRO</title>
     <style>
-        body { background: #000; color: white; font-family: sans-serif; font-weight: bold; margin: 0; padding: 10px; overflow: hidden; }
+        body { background: #000; color: white; font-family: sans-serif; margin: 0; padding: 10px; overflow: hidden; }
         .container { display: grid; grid-template-columns: 380px 1fr 1fr; gap: 15px; height: 95vh; }
-        .box { background: #1a1a1a; padding: 15px; border-radius: 8px; border: 2px solid #333; display: flex; flex-direction: column; overflow: hidden; }
-        h1, h3 { color: #00FF00; text-align: center; margin: 0 0 10px 0; }
-        
-        /* ΛΙΣΤΑ ΠΑΡΑΓΓΕΛΙΑΣ: ΛΕΥΚΟ ΦΟΝΤΟ - ΜΑΥΡΑ ΓΡΑΜΜΑΤΑ */
-        #orderList { 
-            background: white !important; 
-            color: black !important; 
-            padding: 15px; 
-            border-radius: 5px; 
-            flex-grow: 1; 
-            overflow-y: auto; 
-            font-family: monospace; 
-            font-size: 18px; 
-            min-height: 200px; 
-            font-weight: 900; 
-        }
-        
-        /* ΚΟΥΜΠΙΑ ΑΡΙΣΤΕΡΑ */
-        .btn-send { background: #007bff; color: white; padding: 18px; font-size: 18px; margin-top: 10px; border-radius: 8px; cursor: pointer; border: none; font-weight: 900; }
-        .btn-bill { background: #28a745; color: white; padding: 18px; font-size: 18px; margin-top: 5px; border-radius: 8px; cursor: pointer; border: none; font-weight: 900; }
-        .btn-clear { background: #dc3545; color: white; padding: 12px; margin-top: 5px; border-radius: 8px; cursor: pointer; border: none; font-weight: bold; }
-        
-        /* ΤΡΑΠΕΖΙΑ */
+        .box { background: #1a1a1a; padding: 15px; border-radius: 8px; border: 2px solid #333; display: flex; flex-direction: column; }
+        #orderList { background: white; color: black; padding: 10px; border-radius: 5px; flex-grow: 1; overflow-y: auto; }
+        #totalContainer { background: #000; color: #00FF00; padding: 10px; text-align: center; font-size: 30px; border: 2px solid #00FF00; margin-top: 5px; }
         .table-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 5px; overflow-y: auto; }
-        .btn-table { background: #333; color: white; padding: 10px 5px; border: 2px solid #444; height: 60px; font-size: 16px; cursor: pointer; font-weight: 900; }
-
-        /* ΚΑΤΗΓΟΡΙΕΣ */
-        #categories { display: grid; grid-template-columns: repeat(4, 1fr); gap: 4px; }
-        #categories button { background: #333; color: #ffff00; font-size: 12px; min-height: 45px; cursor: pointer; border: 1px solid #555; border-radius: 4px; font-weight: 900; text-transform: uppercase; }
-
-        /* ΠΡΟΪΟΝΤΑ */
-        #products { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; margin-top: 10px; overflow-y: auto; }
-        #products button { background: #0056b3; color: white; min-height: 60px; font-size: 15px; cursor: pointer; border: 1px solid #004494; border-radius: 6px; font-weight: 900; }
-        
-        #totalContainer { background: #000; color: #00FF00; padding: 15px; text-align: center; font-size: 32px; border: 2px solid #00FF00; margin-top: 5px; border-radius: 5px; font-weight: 900; }
-
-        /* ΣΤΥΛ ΓΙΑ ΤΑ EXTRAS ΣΤΟ MODAL */
-        .btn-modal-extra {
-            background-color: #333;
-            color: white;
-            border: 2px solid #444;
-            padding: 20px 10px;
-            font-size: 16px;
-            font-weight: bold;
-            border-radius: 8px;
-            cursor: pointer;
-        }
+        .btn-table { background: #333; color: white; height: 50px; font-weight: bold; border: 1px solid #555; cursor: pointer; }
+        #categories { display: grid; grid-template-columns: repeat(3, 1fr); gap: 5px; }
+        #categories button { background: #444; color: yellow; padding: 10px; border: none; cursor: pointer; font-weight: bold; }
+        #products { display: grid; grid-template-columns: 1fr 1fr; gap: 5px; margin-top: 10px; overflow-y: auto; }
+        #products button { background: #0056b3; color: white; height: 60px; border: none; border-radius: 5px; cursor: pointer; font-weight: bold; }
+        .btn-main { padding: 15px; margin-top: 5px; border: none; border-radius: 5px; cursor: pointer; font-weight: bold; color: white; }
     </style>
 </head>
 <body onload="initApp()">
     <div class="container">
         <div class="box">
-            <h1 style="color: white;">ΡΩΞΑΝΗ</h1>
+            <h2 style="text-align:center; margin:0;">ΡΩΞΑΝΗ</h2>
             <div id="orderList"></div>
-            
-            <div id="totalContainer">
-                <span id="totalAmount">0.00€</span>
-            </div>
-
-            <button class="btn-send" onclick="sendToKitchen()">ΑΠΟΣΤΟΛΗ (ΚΟΥΖΙΝΑ)</button>
-            <button class="btn-bill" onclick="printFinalBill()">ΛΟΓΑΡΙΑΣΜΟΣ (ΣΥΝΟΛΟ)</button>
-            <button class="btn-clear" onclick="clearCurrentScreen()">ΑΚΥΡΩΣΗ ΝΕΩΝ</button>
-            
-            <div style="display: flex; gap: 5px;">
-                <button class="btn-daily" style="background:#ffc107; flex:1; padding:15px; margin-top:10px; border-radius:8px; border:none; font-weight:900;" onclick="showDailyTotal()">💰 ΤΑΜΕΙΟ</button>
-            </div>
+            <div id="totalContainer"><span id="totalAmount">0.00€</span></div>
+            <button class="btn-main" style="background:#007bff;" onclick="sendToKitchen()">ΚΟΥΖΙΝΑ</button>
+            <button class="btn-main" style="background:#28a745;" onclick="printFinalBill()">ΛΟΓΑΡΙΑΣΜΟΣ</button>
+            <button class="btn-main" style="background:#dc3545;" onclick="clearCurrentScreen()">ΑΚΥΡΩΣΗ</button>
         </div>
-
         <div class="box">
             <h3>ΤΡΑΠΕΖΙΑ</h3>
             <div id="tableContainer" class="table-grid"></div>
         </div>
-
         <div class="box">
             <h3>ΜΕΝΟΥ</h3>
             <div id="categories"></div>
@@ -86,19 +39,13 @@
         </div>
     </div>
 
-    <div id="extrasModal" style="display:none; position:fixed; z-index:9999; left:0; top:0; width:100%; height:100%; background:rgba(0,0,0,0.95);">
-        <div style="background:#1a1a1a; margin:2% auto; padding:20px; border:3px solid #00FF00; width:90%; max-width:800px; border-radius:15px; text-align:center;">
-            <h2 id="modalTitle" style="color:#00FF00; margin-bottom:20px; font-size:28px; text-transform: uppercase;">ΕΠΙΛΟΓΕΣ</h2>
-            
-            <div id="extrasButtons" style="display:grid; grid-template-columns: repeat(3, 1fr); gap:12px; margin-bottom:20px;"></div>
-            
-            <div style="display:flex; gap:10px;">
-                <button onclick="closeExtras()" style="background:#28a745; color:white; padding:25px; flex:1; border:none; border-radius:10px; font-weight:900; font-size:20px; cursor:pointer;">ΟΚ / ΠΡΟΣΘΗΚΗ</button>
-                <button onclick="closeExtras()" style="background:#ff4444; color:white; padding:25px; flex:1; border:none; border-radius:10px; font-weight:900; font-size:20px; cursor:pointer;">ΚΛΕΙΣΙΜΟ</button>
-            </div>
+    <div id="extrasModal" style="display:none; position:fixed; z-index:999; left:0; top:0; width:100%; height:100%; background:rgba(0,0,0,0.9);">
+        <div style="background:#222; margin:5% auto; padding:20px; border:2px solid #00FF00; width:80%; border-radius:15px; text-align:center;">
+            <h2 id="modalTitle" style="color:#00FF00;">EXTRAS</h2>
+            <div id="extrasContainer" style="display:grid; grid-template-columns: 1fr 1fr 1fr; gap:10px; margin-bottom:20px;"></div>
+            <button onclick="closeExtras()" style="background:#28a745; color:white; padding:20px; width:100%; border:none; border-radius:10px; font-weight:bold; font-size:18px;">ΤΕΛΟΣ</button>
         </div>
     </div>
-
     <script src="app.js"></script>
 </body>
 </html>
