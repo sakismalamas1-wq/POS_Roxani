@@ -1,5 +1,24 @@
 let currentOrder = [];
-let selectedTable = "Κανένα";
+myTables.forEach(num => {
+            const tableBtn = document.createElement('button');
+            tableBtn.innerText = num;
+            tableBtn.id = "btn-table-" + num; // Δίνουμε ένα ID στο κάθε κουμπί
+            tableBtn.className = 'btn-table';
+            
+            // Αν το τραπέζι έχει ήδη παραγγελία, το κάνουμε κίτρινο
+            if (tableOrders[num] && tableOrders[num].length > 0) {
+                tableBtn.style.backgroundColor = "yellow";
+                tableBtn.style.color = "black";
+            }
+
+            tableBtn.onclick = () => { 
+                selectedTable = "Τραπέζι " + num;
+                // Φορτώνουμε την παραγγελία αυτού του τραπεζιού αν υπάρχει
+                currentOrder = tableOrders[num] || []; 
+                updateOrderDisplay(); 
+            };
+            tableContainer.appendChild(tableBtn);
+        });
 
 // ΕΔΩ ΕΙΝΑΙ ΤΟ ΜΕΝΟΥ ΣΟΥ - Μπορείς να προσθέτεις/αλλάζεις προϊόντα εδώ
 const menuData = {
@@ -184,8 +203,38 @@ function updateOrderDisplay() {
 }
 
 // Λοιπές συναρτήσεις για τα κουμπιά
-function sendToKitchen() { window.print(); }
-function printFinalBill() { window.print(); }
+function sendToKitchen() {
+    let kitchenHTML = `<div style="width: 80mm; font-family: monospace; color: black; padding: 10px;">
+        <h2 style="text-align:center; border-bottom:1px solid #000;">ΠΑΡΑΓΓΕΛΙΑ</h2>
+        <h3 style="text-align:center;">${selectedTable}</h3>`;
+    
+    currentOrder.forEach(it => {
+        kitchenHTML += `<div style="font-size: 20px; font-weight: bold;">- ${it.name}</div>`;
+    });
+    
+    kitchenHTML += `</div>`;
+
+    const printWindow = window.open('', '', 'width=600,height=600');
+    printWindow.document.write('<html><body onload="window.print();window.close()">' + kitchenHTML + '</body></html>');
+    printWindow.document.close();
+}
+function printFinalBill() {
+    let receiptHTML = `<div style="width: 80mm; font-family: monospace; color: black; padding: 10px;">
+        <h2 style="text-align:center;">ΡΩΞΑΝΗ</h2>
+        <h3 style="text-align:center; border-bottom:1px solid #000;">${selectedTable}</h3>`;
+    
+    currentOrder.forEach(it => {
+        receiptHTML += `<div style="display:flex; justify-content:space-between;">
+            <span>${it.name}</span><span>${it.price}€</span>
+        </div>`;
+    });
+    
+    receiptHTML += `<h2 style="text-align:right; border-top:1px solid #000; margin-top:10px;">ΣΥΝΟΛΟ: ${document.getElementById('totalAmount').innerText}</h2></div>`;
+
+    const printWindow = window.open('', '', 'width=600,height=600');
+    printWindow.document.write('<html><body onload="window.print();window.close()">' + receiptHTML + '</body></html>');
+    printWindow.document.close();
+}
 function clearCurrentScreen() { currentOrder = []; selectedTable = "Κανένα"; updateOrderDisplay(); }
 function startDelivery() { alert("Λειτουργία Delivery"); }
 function checkCustomer() {}
