@@ -2,19 +2,93 @@ let currentOrder = [];
 
 // ΤΟ ΜΕΝΟΥ ΣΟΥ ΑΠΕΥΘΕΙΑΣ ΕΔΩ (Για να μη χρειαζόμαστε το fetch τώρα)
 const menuData = {
-    "ΚΑΦΕΔΕΣ": [
+    "ΨΩΜΙ ΠΙΤΑ": [
+        {"name": "ψωμάκι", "price": "0.60"},
+        {"name": "πίτα Εσπρέσσο", "price": "0.60"},
+        {"name": "2 άρτος", "price": "1.20"},
+        {"name": "2 άρτος", "price": "1.20"},
+        {"name": "2 άρτος", "price": "1.20"}.
+        {"name": "2 άρτος", "price": "1.20"}
+        {"name": "2 άρτος", "price": "1.20"}
+    ],
+    "ΚΡΥΑ": [
+        {"name": "Φραπέ", "price": "2.00"},
+        {"name": "Φρεντο Εσπρέσσο", "price": "2.50"},
+        {"name": "Ελληνικός", "price": "1.50"}
+    ],
+    "ΖΕΣΤΑ": [
+        {"name": "Φραπέ", "price": "2.00"},
+        {"name": "Φρεντο Εσπρέσσο", "price": "2.50"},
+        {"name": "Ελληνικός", "price": "1.50"}
+    ],
+    "ΣΑΛΑΤΕΣ": [
+        {"name": "Φραπέ", "price": "2.00"},
+        {"name": "Φρεντο Εσπρέσσο", "price": "2.50"},
+        {"name": "Ελληνικός", "price": "1.50"}
+    ],
+    "ΣΧΑΡΑΣ": [
+        {"name": "Φραπέ", "price": "2.00"},
+        {"name": "Φρεντο Εσπρέσσο", "price": "2.50"},
+        {"name": "Ελληνικός", "price": "1.50"}
+    ],
+    "ΤΕΜΑΧΙΑ": [
+        {"name": "Φραπέ", "price": "2.00"},
+        {"name": "Φρεντο Εσπρέσσο", "price": "2.50"},
+        {"name": "Ελληνικός", "price": "1.50"}
+    ],
+    "ΘΑΛΑΣΣΙΝΑ": [
+        {"name": "Φραπέ", "price": "2.00"},
+        {"name": "Φρεντο Εσπρέσσο", "price": "2.50"},
+        {"name": "Ελληνικός", "price": "1.50"}
+    ],
+    "ΜΑΓΕΙΡΕΥΤΑ": [
+        {"name": "Φραπέ", "price": "2.00"},
+        {"name": "Φρεντο Εσπρέσσο", "price": "2.50"},
+        {"name": "Ελληνικός", "price": "1.50"}
+    ],
+    "ΣΠΕΣΙΑΛ": [
+        {"name": "Coca Cola", "price": "1.80"},
+        {"name": "Πορτοκαλάδα", "price": "1.80"}
+    ],
+    "ΟΥΖΑ": [
+        {"name": "Τοστ Ζαμπόν", "price": "2.20"},
+        {"name": "Τοστ Γαλοπούλα", "price": "2.20"}
+    ],
+    "ΤΣΙΠΟΥΡΑ": [
+        {"name": "Φραπέ", "price": "2.00"},
+        {"name": "Φρεντο Εσπρέσσο", "price": "2.50"},
+        {"name": "Ελληνικός", "price": "1.50"}
+    ],
+    "ΜΠΥΡΕΣ": [
+        {"name": "Φραπέ", "price": "2.00"},
+        {"name": "Φρεντο Εσπρέσσο", "price": "2.50"},
+        {"name": "Ελληνικός", "price": "1.50"}
+    ],
+    "ΚΡΑΣΙΑ": [
+        {"name": "Φραπέ", "price": "2.00"},
+        {"name": "Φρεντο Εσπρέσσο", "price": "2.50"},
+        {"name": "Ελληνικός", "price": "1.50"}
+    ],
+    "ΡΕΤΣΙΝΕΣ": [
         {"name": "Φραπέ", "price": "2.00"},
         {"name": "Φρεντο Εσπρέσσο", "price": "2.50"},
         {"name": "Ελληνικός", "price": "1.50"}
     ],
     "ΑΝΑΨΥΚΤΙΚΑ": [
-        {"name": "Coca Cola", "price": "1.80"},
-        {"name": "Πορτοκαλάδα", "price": "1.80"}
+        {"name": "Φραπέ", "price": "2.00"},
+        {"name": "Φρεντο Εσπρέσσο", "price": "2.50"},
+        {"name": "Ελληνικός", "price": "1.50"}
     ],
-    "ΤΟΑΣΤ": [
-        {"name": "Τοστ Ζαμπόν", "price": "2.20"},
-        {"name": "Τοστ Γαλοπούλα", "price": "2.20"}
+    "ΔΙΑΦΟΡΑ": [
+        {"name": "Φραπέ", "price": "2.00"},
+        {"name": "Φρεντο Εσπρέσσο", "price": "2.50"},
+        {"name": "Ελληνικός", "price": "1.50"}
+    ],
+    "DELIVERY": [
+        {"name": "κόστος delivery", "price": "1.00"},
+        {"name": "κόστος delivery", "price": "2.00"}
     ]
+
 };
 
 function initApp() {
@@ -22,16 +96,18 @@ function initApp() {
     
     // 1. Σχεδίαση Τραπεζιών
     const tableContainer = document.getElementById('tableContainer');
-    if (tableContainer) {
-        tableContainer.innerHTML = '';
-        for (let i = 1; i <= 20; i++) {
+if (tableContainer) {
+        tableContainer.innerHTML = ''; 
+        const myTables = [1, 2, 3, 4, 5, 6, 7, 8, 11, 12, 13, 14, 15, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 41, 42, 43, 44, 45];
+        
+        myTables.forEach(num => {
             const tableBtn = document.createElement('button');
-            tableBtn.innerText = "Τρ. " + i;
-            tableBtn.className = 'btn-table'; // Εδώ θα πάρει το στυλ από το CSS σου
-            tableBtn.onclick = () => alert("Επιλέχθηκε το Τραπέζι " + i);
+            tableBtn.innerText = "" + num;
+            tableBtn.className = 'btn-table';
+            tableBtn.onclick = () => alert("Επιλέχθηκε το Τραπέζι " + num);
             tableContainer.appendChild(tableBtn);
-        }
-    }
+        });
+    } // <--- Αυτή η αγκύλη κλείνει το if και πρέπει να υπάρχει!
 
     // 2. Εμφάνιση Κατηγοριών (Αμέσως!)
     renderCategories();
