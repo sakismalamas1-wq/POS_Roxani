@@ -126,10 +126,11 @@ function startDelivery() {
     let name = document.getElementById('cust_name').value;
     let addr = document.getElementById('cust_addr').value;
     let floor = document.getElementById('cust_floor').value;
+    let notes = document.getElementById('cust_notes').value;
     
     if(!tel) return alert("Βάλε τηλέφωνο!");
  
-    selectedTable = "DELIVERY: " + name + " (" + tel + ") - " + addr + " " + floor;
+    selectedTable = "DELIVERY: " + name + " (" + tel + ") - " + addr + " " + floor + " - " + notes;
     currentOrder = [];
     renderOrder();
   
