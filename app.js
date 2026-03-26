@@ -175,6 +175,28 @@ function renderProducts(category) {
     });
 }
 
+function renderExtras() {
+    const extrasDiv = document.getElementById('extrasContainer'); // Πρέπει να υπάρχει στο HTML σου
+    if (!extrasDiv) return;
+    extrasDiv.innerHTML = '<h4 style="color:white; margin:5px;">EXTRAS:</h4>';
+
+    commonExtras.forEach(extra => {
+        const btn = document.createElement('button');
+        btn.innerText = extra.name + (extra.price > 0 ? " +" + extra.price : "");
+        btn.className = 'btn-extra'; // Φτιάξε μια κλάση στο CSS για μικρά κίτρινα κουμπιά
+        btn.onclick = () => {
+            if (currentOrder.length > 0) {
+                // Προσθέτει το extra στο ΤΕΛΕΥΤΑΙΟ προϊόν που χτύπησες
+                let lastItem = currentOrder[currentOrder.length - 1];
+                lastItem.name += " (" + extra.name + ")";
+                lastItem.price = (parseFloat(lastItem.price) + parseFloat(extra.price)).toFixed(2);
+                updateOrderDisplay();
+            }
+        };
+        extrasDiv.appendChild(btn);
+    });
+}
+
 function updateOrderDisplay() {
     const list = document.getElementById('orderList');
     const totalDisp = document.getElementById('totalAmount');
