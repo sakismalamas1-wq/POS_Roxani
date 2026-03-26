@@ -91,19 +91,25 @@ function updateOrderDisplay() {
     let total = 0;
     
     if (list) {
-        // Εδώ εμφανίζουμε ποιο τραπέζι είναι επιλεγμένο πάνω-πάνω στην απόδειξη
-        let html = `<h2 style="color:#e67e22; text-align:center; border-bottom:2px solid #e67e22; padding-bottom:10px;">${selectedTable}</h2>`;
+        // Τίτλος Τραπεζιού σε ΜΑΥΡΟ χρώμα
+        let html = `<h2 style="color:black; text-align:center; border-bottom:2px solid #e67e22; padding-bottom:10px;">${selectedTable}</h2>`;
         
         currentOrder.forEach((it) => {
             total += parseFloat(it.price);
-            html += `<div style="padding:10px; border-bottom:1px solid #444; color:white; display:flex; justify-content:space-between; font-size:18px;">
+            // Προϊόντα με ΜΑΥΡΑ γράμματα για να φαίνονται στο λευκό φόντο
+            html += `<div style="padding:10px; border-bottom:1px solid #ccc; color:black; display:flex; justify-content:space-between; font-size:18px; font-weight:500;">
                         <span>${it.name}</span>
                         <span>${it.price}€</span>
                     </div>`;
         });
         list.innerHTML = html;
     }
-    if (totalDisp) totalDisp.innerText = total.toFixed(2) + "€";
+    
+    // Το σύνολο κάτω-κάτω σε ΜΑΥΡΟ
+    if (totalDisp) {
+        totalDisp.style.color = "black";
+        totalDisp.innerText = total.toFixed(2) + "€";
+    }
 }
 
 // Λοιπές συναρτήσεις για τα κουμπιά
