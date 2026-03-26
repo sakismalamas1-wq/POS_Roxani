@@ -198,6 +198,8 @@ function printFinalBill() {
         let name = document.getElementById('cust_name').value;
         let addr = document.getElementById('cust_addr').value;
         let floor = document.getElementById('cust_floor').value;
+        let notes = document.getElementById('cust_notes').value;
+    if(notes) win.document.write('<h3 style="margin:5px 0; font-size:26px;">ΣΧΟΛΙΑ: ' + notes + '</h3>');
 
         win.document.write('<h2 style="margin:5px 0; border-bottom:2px solid #000;">ΑΠΟΔΕΙΞΗ DELIVERY</h2>');
         win.document.write('<h3 style="margin:5px 0; font-size:28px;">' + name + '</h3>');
