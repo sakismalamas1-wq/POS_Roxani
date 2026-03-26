@@ -146,7 +146,26 @@ function sendToKitchen() {
     if(currentOrder.length === 0) return alert("Κενή παραγγελία!");
     const win = window.open('', '', 'width=600,height=800');
     win.document.write('<html><body style="font-family:Arial; font-size:24px; font-weight:bold; width:80mm; margin:0; padding:10px; min-height:450px;" onload="window.print(); window.close();">');
-    win.document.write('<center><h1 style="font-size:40px; margin:0;">ΚΟΥΖΙΝΑ</h1><h2 style="font-size:30px; margin:5px 0;">' + selectedTable + '</h2><hr style="border:2px solid black;"></center>');
+    win.document.write('<center>');
+    win.document.write('<h1 style="font-size:40px; margin:0;">ΡΩΞΑΝΗ</h1>');
+
+    if (selectedTable.includes("DELIVERY:")) {
+        let tel = document.getElementById('cust_tel').value;
+        let name = document.getElementById('cust_name').value;
+        let addr = document.getElementById('cust_addr').value;
+        let floor = document.getElementById('cust_floor').value;
+        let notes = document.getElementById('cust_notes')?.value || "";
+
+        win.document.write('<h2 style="margin:5px 0; border-bottom:2px solid #000;">DELIVERY</h2>');
+        win.document.write('<h3 style="margin:5px 0; font-size:28px;">' + name + '</h3>');
+        win.document.write('<h3 style="margin:5px 0; font-size:28px;">ΤΗΛ: ' + tel + '</h3>');
+        win.document.write('<h3 style="margin:5px 0; font-size:28px;">' + addr + '</h3>');
+        win.document.write('<h3 style="margin:5px 0; font-size:28px;">ΟΡΟΦΟΣ: ' + floor + '</h3>');
+        if(notes) win.document.write('<p style="margin:5px 0; font-size:22px;">ΣΧΟΛΙΑ: ' + notes + '</p>');
+    } else {
+        win.document.write('<h1 style="font-size:50px; margin:10px 0;">' + selectedTable + '</h1>');
+    }
+    win.document.write('</center>');
     win.document.write('<div style="margin-top:20px;">');
     currentOrder.forEach(it => { 
         win.document.write('<div style="margin-bottom:20px; border-bottom:1px dashed #444; padding-bottom:10px;">• ' + it.n + '</div>'); 
