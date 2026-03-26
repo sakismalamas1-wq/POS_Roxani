@@ -190,10 +190,10 @@ function renderTables() {
     container.innerHTML = nums.map(i => {
         let n = (i === 0) ? "TAKE AWAY" : i;
         let tName = (i === 0) ? "TAKE AWAY" : "ΤΡΑΠΕΖΙ " + i;
-        let style = "";
-        if (allTablesData[tName] && allTablesData[tName].length > 0) {
-            style = 'style="background:#ffc107; color:black; border:2px solid #000;"';
-        }
+  let style = "";
+if (allTablesData[tName] && allTablesData[tName].length > 0) {
+    style = 'style="background-color: yellow; color: black;"';
+}
         let activeClass = (selectedTable === tName) ? "table-active" : "";
         return `<button class="btn-table ${activeClass}" id="t-${i}" ${style} onclick="setTable(${i})">${n}</button>`;
     }).join('');
