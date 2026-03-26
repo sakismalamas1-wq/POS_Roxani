@@ -121,16 +121,21 @@ function renderOrder() {
 
 // 2. DELIVERY & ΤΡΑΠΕΖΙΑ (ΜΕ ΜΝΗΜΗ ΠΕΛΑΤΩΝ)
 function startDelivery() {
+    if (selectedTable) { allTablesData[selectedTable] = [...currentOrder]; }
     let tel = document.getElementById('cust_tel').value;
     let name = document.getElementById('cust_name').value;
     let addr = document.getElementById('cust_addr').value;
     let floor = document.getElementById('cust_floor').value;
     
     if(!tel) return alert("Βάλε τηλέφωνο!");
-    
+ 
     selectedTable = "DELIVERY: " + name + " (" + tel + ") - " + addr + " " + floor;
+    currentOrder = [];
+    renderOrder();
+  
     
-    // Αποθήκευση/Ενημέρωση πελάτη στη μνήμη
+   // Αποθήκευση/Ενημέρωση πελάτη στη μνήμη
+    document.querySelectorAll('.btn-table').forEach(b => b.classList.remove('table-active')); 
     customers[tel] = { name, addr, floor };
     localStorage.setItem('roxani_customers', JSON.stringify(customers));
     
