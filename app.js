@@ -1,36 +1,40 @@
 let currentOrder = [];
-let menuData = {};
+
+// ΤΟ ΜΕΝΟΥ ΣΟΥ ΑΠΕΥΘΕΙΑΣ ΕΔΩ (Για να μη χρειαζόμαστε το fetch τώρα)
+const menuData = {
+    "ΚΑΦΕΔΕΣ": [
+        {"name": "Φραπέ", "price": "2.00"},
+        {"name": "Φρεντο Εσπρέσσο", "price": "2.50"},
+        {"name": "Ελληνικός", "price": "1.50"}
+    ],
+    "ΑΝΑΨΥΚΤΙΚΑ": [
+        {"name": "Coca Cola", "price": "1.80"},
+        {"name": "Πορτοκαλάδα", "price": "1.80"}
+    ],
+    "ΤΟΑΣΤ": [
+        {"name": "Τοστ Ζαμπόν", "price": "2.20"},
+        {"name": "Τοστ Γαλοπούλα", "price": "2.20"}
+    ]
+};
 
 function initApp() {
-    console.log("Η εφαρμογή ξεκίνησε...");
+    console.log("Εκκίνηση...");
     
-    // 1. Σχεδίαση Τραπεζιών αμέσως (για να δούμε αν δουλεύει)
+    // 1. Σχεδίαση Τραπεζιών
     const tableContainer = document.getElementById('tableContainer');
     if (tableContainer) {
-        tableContainer.innerHTML = ''; // Καθαρισμός
+        tableContainer.innerHTML = '';
         for (let i = 1; i <= 20; i++) {
             const tableBtn = document.createElement('button');
             tableBtn.innerText = "Τρ. " + i;
-            tableBtn.className = 'btn-table';
-            tableBtn.onclick = () => alert("Τραπέζι " + i);
+            tableBtn.className = 'btn-table'; // Εδώ θα πάρει το στυλ από το CSS σου
+            tableBtn.onclick = () => alert("Επιλέχθηκε το Τραπέζι " + i);
             tableContainer.appendChild(tableBtn);
         }
     }
 
-    // 2. Φόρτωση Μενού
-    fetch('menu.json')
-        .then(response => {
-            if (!response.ok) throw new Error("Πρόβλημα με το menu.json");
-            return response.json();
-        })
-        .then(data => {
-            menuData = data;
-            renderCategories();
-        })
-        .catch(err => {
-            console.error("Σφάλμα:", err);
-            document.getElementById('categories').innerHTML = "Σφάλμα φόρτωσης μενού.";
-        });
+    // 2. Εμφάνιση Κατηγοριών (Αμέσως!)
+    renderCategories();
 }
 
 function renderCategories() {
@@ -41,6 +45,7 @@ function renderCategories() {
     Object.keys(menuData).forEach(cat => {
         const btn = document.createElement('button');
         btn.innerText = cat;
+        // Προσθέτουμε μια κλάση αν έχεις στο CSS για τα κουμπιά κατηγοριών
         btn.onclick = () => renderProducts(cat);
         categoriesDiv.appendChild(btn);
     });
@@ -67,19 +72,22 @@ function updateOrderDisplay() {
     const totalDisp = document.getElementById('totalAmount');
     let total = 0;
     
-    list.innerHTML = currentOrder.map(it => {
-        total += parseFloat(it.price);
-        return `<div style="padding:5px; border-bottom:1px solid #444;">${it.name} - ${it.price}€</div>`;
-    }).join('');
+    if (list) {
+        list.innerHTML = currentOrder.map(it => {
+            total += parseFloat(it.price);
+            return `<div style="padding:10px; border-bottom:1px solid #444; color:white;">
+                        ${it.name} - ${it.price}€
+                    </div>`;
+        }).join('');
+    }
     
-    totalDisp.innerText = total.toFixed(2) + "€";
+    if (totalDisp) totalDisp.innerText = total.toFixed(2) + "€";
 }
 
-// Κενές συναρτήσεις για να μην "χτυπάει" το HTML αν πατήσεις κουμπί
-function sendToKitchen() { alert("Αποστολή..."); }
-function printFinalBill() { alert("Λογαριασμός..."); }
+// Βοηθητικές για να μην κολλάει το HTML
+function sendToKitchen() { alert("Στάλθηκε!"); }
+function printFinalBill() { window.print(); }
 function clearCurrentScreen() { currentOrder = []; updateOrderDisplay(); }
-function startDelivery() { alert("Delivery..."); }
+function startDelivery() { alert("Delivery Mode"); }
 function checkCustomer() {}
-function showDailyTotal() { alert("Τζίρος: " + document.getElementById('totalAmount').innerText); }
-function resetDailyTotal() { if(confirm("Μηδενισμός;")) alert("Μηδενίστηκε"); }
+function showDailyTotal() { alert("Σύνολο: " + document.getElementById('totalAmount').innerText); }
