@@ -61,11 +61,8 @@ const menuData = {
     ],
     "ΔΙΑΦΟΡΑ": [
         {"name": "Νερό 1.5L", "price": "1.00"}
-    ],
-    "DELIVERY": [
-        {"name": "κόστος delivery", "price": "1.00"},
-        {"name": "κόστος delivery 2", "price": "2.00"}
-}
+    ]
+};
 
 function initApp() {
     console.log("Εκκίνηση...");
@@ -74,17 +71,15 @@ function initApp() {
     if (tableContainer) {
         tableContainer.innerHTML = ''; 
 
-        // 1. Κουμπί TAKE AWAY (Πορτοκαλί και μεγάλο)
+        // 1. Κουμπί TAKE AWAY
         const takeawayBtn = document.createElement('button');
         takeawayBtn.innerText = "TAKE AWAY";
         takeawayBtn.className = 'btn-table';
         takeawayBtn.style.backgroundColor = "#e67e22";
-        takeawayBtn.style.color = "white";
-        takeawayBtn.style.fontWeight = "bold";
         takeawayBtn.onclick = () => alert("Επιλέχθηκε TAKE AWAY");
         tableContainer.appendChild(takeawayBtn);
 
-        // 2. Τα τραπέζια σου
+        // 2. Τραπέζια
         const myTables = [1, 2, 3, 4, 5, 6, 7, 8, 11, 12, 13, 14, 15, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 41, 42, 43, 44, 45];
         
         myTables.forEach(num => {
@@ -135,12 +130,11 @@ function updateOrderDisplay() {
     if (list) {
         list.innerHTML = currentOrder.map(it => {
             total += parseFloat(it.price);
-            return `<div style="padding:10px; border-bottom:1px solid #444; color:white; font-size:18px;">
+            return `<div style="padding:10px; border-bottom:1px solid #444; color:white;">
                         ${it.name} - ${it.price}€
                     </div>`;
         }).join('');
     }
-    
     if (totalDisp) totalDisp.innerText = total.toFixed(2) + "€";
 }
 
