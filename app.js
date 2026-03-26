@@ -243,6 +243,7 @@ function sendToKitchen() {
     printWindow.document.write('<html><body onload="window.print();window.close()">' + kitchenHTML + '</body></html>');
     printWindow.document.close();
 }
+
 function printFinalBill() {
     let receiptHTML = `<div style="width: 80mm; font-family: monospace; color: black; padding: 10px;">
         <h2 style="text-align:center;">ΡΩΞΑΝΗ</h2>
@@ -260,6 +261,7 @@ function printFinalBill() {
     printWindow.document.write('<html><body onload="window.print();window.close()">' + receiptHTML + '</body></html>');
     printWindow.document.close();
 }
+
 function clearCurrentScreen() { currentOrder = []; selectedTable = "Κανένα"; updateOrderDisplay(); }
 function startDelivery() { alert("Λειτουργία Delivery"); }
 function checkCustomer() {}
