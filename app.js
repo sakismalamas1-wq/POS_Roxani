@@ -24,7 +24,7 @@ function initApp() {
     const tableContainer = document.getElementById('tableContainer');
     if (tableContainer) {
         tableContainer.innerHTML = '';
-        for (let i = 1; i <= 0, 1, 2, 3, 4, 5, 6, 7, 8, 11, 12, 13, 14, 15, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 41, 42, 43, 44, 45; i++) {
+        for (let i = 1; i <= 20; i++) {
             const tableBtn = document.createElement('button');
             tableBtn.innerText = "Τρ. " + i;
             tableBtn.className = 'btn-table'; // Εδώ θα πάρει το στυλ από το CSS σου
