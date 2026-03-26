@@ -10,17 +10,86 @@ const menuData = {
         {"name": "μερίδα ψωμί", "price": "1.20"}
     ],
     "ΚΡΥΑ": [
+        {"name": "ψωμάκι", "price": "0.60"},
+        {"name": "πίτα", "price": "0.60"},
+        {"name": "2 άρτος", "price": "1.20"},
+        {"name": "μερίδα ψωμί", "price": "1.20"}
+    ],
+    "ΖΕΣΤΑ": [
+        {"name": "ψωμάκι", "price": "0.60"},
+        {"name": "πίτα", "price": "0.60"},
+        {"name": "2 άρτος", "price": "1.20"},
+        {"name": "μερίδα ψωμί", "price": "1.20"}
+    ],
+    "ΣΑΛΑΤΕΣ": [
+        {"name": "ψωμάκι", "price": "0.60"},
+        {"name": "πίτα", "price": "0.60"},
+        {"name": "2 άρτος", "price": "1.20"},
+        {"name": "μερίδα ψωμί", "price": "1.20"}
+    ],
+    "ΣΧΑΡΑΣ": [
+        {"name": "ψωμάκι", "price": "0.60"},
+        {"name": "πίτα", "price": "0.60"},
+        {"name": "2 άρτος", "price": "1.20"},
+        {"name": "μερίδα ψωμί", "price": "1.20"}
+    ],
+    "ΣΠΕΣΙΑΛ": [
+        {"name": "ψωμάκι", "price": "0.60"},
+        {"name": "πίτα", "price": "0.60"},
+        {"name": "2 άρτος", "price": "1.20"},
+        {"name": "μερίδα ψωμί", "price": "1.20"}
+    ],
+     "ΜΑΓΕΙΡΕΥΤΑ": [
+        {"name": "ψωμάκι", "price": "0.60"},
+        {"name": "πίτα", "price": "0.60"},
+        {"name": "2 άρτος", "price": "1.20"},
+        {"name": "μερίδα ψωμί", "price": "1.20"}
+    ],
+    "ΘΑΛΑΣΣΙΝΑ": [
+        {"name": "ψωμάκι", "price": "0.60"},
+        {"name": "πίτα", "price": "0.60"},
+        {"name": "2 άρτος", "price": "1.20"},
+        {"name": "μερίδα ψωμί", "price": "1.20"}
+    ],
+    "ΤΕΜΑΧΙΑ": [
         {"name": "Φραπέ", "price": "2.00"},
         {"name": "Φρεντο Εσπρέσσο", "price": "2.50"},
         {"name": "Ελληνικός", "price": "1.50"}
     ],
-    "ΖΕΣΤΑ": [
+    "ΣΑΝΤΟΥΙΤΣ": [
         {"name": "Ελληνικός", "price": "1.50"},
         {"name": "Νεσκαφέ", "price": "2.00"}
     ],
-    "ΑΝΑΨΥΚΤΙΚΑ": [
+    "ΟΥΖΑ ΤΣΙΠΟΥΡΑ": [
         {"name": "Coca Cola 330ml", "price": "2.00"},
         {"name": "Πορτοκαλάδα", "price": "2.00"}
+    ],
+     "ΜΠΥΡΕΣ": [
+        {"name": "ψωμάκι", "price": "0.60"},
+        {"name": "πίτα", "price": "0.60"},
+        {"name": "2 άρτος", "price": "1.20"},
+        {"name": "μερίδα ψωμί", "price": "1.20"}
+    ],
+     "ΡΕΤΣΙΝΕΣ": [
+        {"name": "ψωμάκι", "price": "0.60"},
+        {"name": "πίτα", "price": "0.60"},
+        {"name": "2 άρτος", "price": "1.20"},
+        {"name": "μερίδα ψωμί", "price": "1.20"}
+    ], "ΚΡΑΣΙΑ": [
+        {"name": "ψωμάκι", "price": "0.60"},
+        {"name": "πίτα", "price": "0.60"},
+        {"name": "2 άρτος", "price": "1.20"},
+        {"name": "μερίδα ψωμί", "price": "1.20"}
+    ], "ΑΝΑΨΥΚΤΙΚΑ": [
+        {"name": "ψωμάκι", "price": "0.60"},
+        {"name": "πίτα", "price": "0.60"},
+        {"name": "2 άρτος", "price": "1.20"},
+        {"name": "μερίδα ψωμί", "price": "1.20"}
+    ], "DELIVERY": [
+        {"name": "ψωμάκι", "price": "0.60"},
+        {"name": "πίτα", "price": "0.60"},
+        {"name": "2 άρτος", "price": "1.20"},
+        {"name": "μερίδα ψωμί", "price": "1.20"}
     ]
 };
 
@@ -107,13 +176,13 @@ function updateOrderDisplay() {
     
     // Το σύνολο κάτω-κάτω σε ΜΑΥΡΟ
     if (totalDisp) {
-        totalDisp.style.color = "black";
+        totalDisp.style.color = "white";
         totalDisp.innerText = total.toFixed(2) + "€";
     }
 }
 
 // Λοιπές συναρτήσεις για τα κουμπιά
-function sendToKitchen() { alert("Στάλθηκε στην κουζίνα!"); }
+function sendToKitchen() { window.print(); }
 function printFinalBill() { window.print(); }
 function clearCurrentScreen() { currentOrder = []; selectedTable = "Κανένα"; updateOrderDisplay(); }
 function startDelivery() { alert("Λειτουργία Delivery"); }
