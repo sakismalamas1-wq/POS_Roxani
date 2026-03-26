@@ -65,7 +65,7 @@ const menuData = {
     "DELIVERY": [
         {"name": "κόστος delivery", "price": "1.00"},
         {"name": "κόστος delivery 2", "price": "2.00"}
-};
+}
 
 function initApp() {
     console.log("Εκκίνηση...");
