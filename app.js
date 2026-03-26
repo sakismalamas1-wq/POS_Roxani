@@ -115,7 +115,7 @@ const menuData = {
         {"name": "κόστος delivery", "price": "1.0"},
         {"name": "κόστος delivery", "price": "2.00"}
     ]
-};
+}
 
 function initApp() {
     const tableContainer = document.getElementById('tableContainer');
