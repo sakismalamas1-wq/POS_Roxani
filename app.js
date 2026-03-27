@@ -199,13 +199,13 @@ function printFinalBill() {
         let addr = document.getElementById('cust_addr').value;
         let floor = document.getElementById('cust_floor').value;
         let notes = document.getElementById('cust_notes').value;
-        if(notes) win.document.write('<h3 style="margin:5px 0; font-size:26px;">ΣΧΟΛΙΑ: ' + notes + '</h3>');
 
         win.document.write('<h2 style="margin:5px 0; border-bottom:2px solid #000;">ΑΠΟΔΕΙΞΗ DELIVERY</h2>');
         win.document.write('<h3 style="margin:5px 0; font-size:28px;">' + name + '</h3>');
         win.document.write('<h3 style="margin:5px 0; font-size:28px;">ΤΗΛ: ' + tel + '</h3>');
         win.document.write('<h3 style="margin:5px 0; font-size:28px;">' + addr + '</h3>');
         win.document.write('<h3 style="margin:5px 0; font-size:28px;">ΟΡΟΦΟΣ: ' + floor + '</h3>');
+        if(notes) win.document.write('<h3 style="margin:5px 0; font-size:26px;">ΣΧΟΛΙΑ: ' + notes + '</h3>');
     } else {
         win.document.write('<h2 style="font-size:30px; margin:10px 0;">' + selectedTable + '</h2>');
     }
