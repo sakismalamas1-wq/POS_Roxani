@@ -220,7 +220,7 @@ function printFinalBill() {
     win.document.write('</div>');
     win.document.write('<div style="margin-top:30px; border-top:3px solid black; padding-top:10px; text-align:right; font-size:32px;">ΣΥΝΟΛΟ: ' + tot.toFixed(2) + '€</div>');
     win.document.write('<div style="height:150px;"></div>'); 
-    win.document.write('<center><div style="font-size:16px;">Ευχαριστούμε!</div><div style="font-size:14px;">' + new Date().toLocaleString('el-GR') + '</div></center>');
+    win.document.write('<center><div style="font-size:20px;">Ευχαριστούμε!</div><div style="font-size:14px;">' + new Date().toLocaleString('el-GR') + '</div></center>');
     win.document.write('</body></html>');
     win.document.close();
     
