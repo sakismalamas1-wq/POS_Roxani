@@ -93,14 +93,14 @@
 
         <div class="box">
             <h3>DELIVERY / ΤΡΑΠΕΖΙΑ</h3>
-            <div class="delivery-inputs">
-                <input id="cust_tel" placeholder="Τηλέφωνο" onkeyup="checkCustomer(this.value)" style="grid-column: span 2;">
-                <input id="cust_name" placeholder="Όνομα Πελάτη" style="grid-column: span 2;">
-                <input id="cust_addr" placeholder="Διεύθυνση" style="grid-column: span 1;">
-                <input id="cust_floor" placeholder="Όροφος" style="grid-column: span 1;">
-                <input id="cust_notes" placeholder="Σχόλια" style="grid-column: span 2;">
-                <button class="btn-delivery-start" onclick="startDelivery()">ΕΝΑΡΞΗ DELIVERY</button>
-            </div>
+<div class="delivery-inputs" style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px; width: 100%; box-sizing: border-box;">
+    <input id="cust_tel" placeholder="Τηλέφωνο" onkeyup="checkCustomer(this.value)" style="grid-column: span 2; width: 100%; box-sizing: border-box; padding: 10px;">
+    <input id="cust_name" placeholder="Όνομα Πελάτη" style="grid-column: span 2; width: 100%; box-sizing: border-box; padding: 10px;">
+    <input id="cust_addr" placeholder="Διεύθυνση" style="grid-column: span 1; width: 100%; box-sizing: border-box; padding: 10px;">
+    <input id="cust_floor" placeholder="Όροφος" style="grid-column: span 1; width: 100%; box-sizing: border-box; padding: 10px;">
+    <input id="cust_notes" placeholder="Σχόλια" style="grid-column: span 2; width: 100%; box-sizing: border-box; padding: 10px;">
+    <button class="btn-delivery-start" onclick="startDelivery()" style="grid-column: span 2; padding: 15px; cursor: pointer;">ΕΝΑΡΞΗ DELIVERY</button>
+</div>
             <div id="tableContainer" class="table-grid"></div>
         </div>
 

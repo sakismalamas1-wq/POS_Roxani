@@ -225,6 +225,12 @@ function printFinalBill() {
     win.document.close();
     
     currentOrder = []; renderOrder();
+    // Αδειάζουμε τα κουτάκια στην οθόνη
+    document.getElementById('cust_tel').value = "";
+    document.getElementById('cust_name').value = "";
+    document.getElementById('cust_addr').value = "";
+    document.getElementById('cust_floor').value = "";
+    document.getElementById('cust_notes').value = "";
 }
 
 function renderTables() {
