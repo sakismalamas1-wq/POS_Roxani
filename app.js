@@ -200,13 +200,13 @@ function printFinalBill() {
         let floor = document.getElementById('cust_floor').value;
         let notes = document.getElementById('cust_notes').value;
 
-        win.document.write('<h2 style="margin:5px 0; border-bottom:2px solid #000;"> www.roxani.gr</h2>');
-        win.document.write('<h2 style="margin:5px 0; border-bottom:2px solid #000;"> DELIVERY</h2>');
-        win.document.write('<h3 style="margin:5px 0; font-size:28px;">' + name + '</h3>');
-        win.document.write('<h3 style="margin:5px 0; font-size:28px;">ΤΗΛ: ' + tel + '</h3>');
-        win.document.write('<h3 style="margin:5px 0; font-size:28px;">' + addr + '</h3>');
-        win.document.write('<h3 style="margin:5px 0; font-size:28px;">ΟΡΟΦΟΣ: ' + floor + '</h3>');
-        if(notes) win.document.write('<h3 style="margin:5px 0; font-size:26px;">ΣΧΟΛΙΑ: ' + notes + '</h3>');
+        win.document.write('<h2 style="margin:3px 0; border-bottom:2px solid #000;"> www.roxani.gr</h2>');
+        win.document.write('<h2 style="margin:3px 0; border-bottom:2px solid #000;"> DELIVERY</h2>');
+        win.document.write('<h3 style="margin:3px 0; font-size:28px;">' + name + '</h3>');
+        win.document.write('<h3 style="margin:3px 0; font-size:28px;">ΤΗΛ: ' + tel + '</h3>');
+        win.document.write('<h3 style="margin:3px 0; font-size:28px;">' + addr + '</h3>');
+        win.document.write('<h3 style="margin:3px 0; font-size:28px;">ΟΡΟΦΟΣ: ' + floor + '</h3>');
+        if(notes) win.document.write('<h3 style="margin:5px 0; font-size:20px;">ΣΧΟΛΙΑ: ' + notes + '</h3>');
     } else {
         win.document.write('<h2 style="font-size:30px; margin:10px 0;">' + selectedTable + '</h2>');
     }
@@ -220,7 +220,7 @@ function printFinalBill() {
     win.document.write('</div>');
     win.document.write('<div style="margin-top:30px; border-top:3px solid black; padding-top:10px; text-align:right; font-size:32px;">ΣΥΝΟΛΟ: ' + tot.toFixed(2) + '€</div>');
     win.document.write('<div style="height:150px;"></div>'); 
-    win.document.write('<center><div style="font-size:20px;">Ευχαριστούμε!</div><div style="font-size:14px;">' + new Date().toLocaleString('el-GR') + '</div></center>');
+    win.document.write('<center><div style="font-size:24px;">Ευχαριστούμε!</div><div style="font-size:14px;">' + new Date().toLocaleString('el-GR') + '</div></center>');
     win.document.write('</body></html>');
     win.document.close();
     
