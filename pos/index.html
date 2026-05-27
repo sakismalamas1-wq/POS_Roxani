@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="el">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pos License Generator</title>
+
+    <!-- Εικονίδιο για Android (Chrome) -->
+    <link rel="icon" type="image/png" sizes="192x192" href="https://icons8.com">
+    <link rel="icon" type="image/png" sizes="512x512" href="https://icons8.com">
+    
+    <!-- Εικονίδιο για iPhone / iPad (Safari) -->
+    <link rel="apple-touch-icon" sizes="180x180" href="https://icons8.com">
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        body {
+            background: linear-gradient(to bottom, #151515, #2c0e54, #151515);
+            color: #fff;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            padding: 20px;
+            text-align: center;
+        }
+        .container {
+            width: 100%;
+            max-width: 400px;
+            background: rgba(255, 255, 255, 0.05);
+            padding: 30px 20px;
+            border-radius: 20px;
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+            backdrop-filter: blur(4px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        h2 {
+            font-size: 24px;
+            margin-bottom: 30px;
+            font-weight: 600;
+            letter-spacing: 1px;
+            color: #e0b0ff;
+        }
+        input[type="date"] {
+            width: 100%;
+            padding: 15px;
+            font-size: 18px;
+            border-radius: 12px;
+            border: 2px solid #7e08ec;
+            background-color: #202121;
+            color: #fff;
+            margin-bottom: 20px;
+            text-align: center;
+            outline: none;
+        }
+        button {
+            width: 100%;
+            padding: 15px;
+            font-size: 18px;
+            font-weight: bold;
+            background: linear-gradient(135deg, #7e08ec, #a13bf7);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(126, 8, 236, 0.4);
+            transition: transform 0.1s ease;
+            letter-spacing: 2px;
+        }
+        button:active {
+            transform: scale(0.98);
+        }
+        #result {
+            color: #fffb00;
+            margin-top: 35px;
+            font-size: 32px;
+            font-weight: 800;
+            letter-spacing: 2px;
+            text-shadow: 0 0 10px rgba(255, 251, 0, 0.5);
+            word-wrap: break-word;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h2>Pos License Generator</h2>
+        <input type="date" id="targetDate">
+        <button onclick="generate()">MAKE PIN</button>
+        <h1 id="result"></h1>
+    </div>
+
+    <script>
+        function generate() {
+            let d = document.getElementById('targetDate').value;
+            if(!d) return;
+            let parts = d.split('-');
+            let day = parseInt(parts[2]) + 22; 
+            let pin = "S" + parts[0] + parts[1] + day;
+            document.getElementById('result').innerText = pin;
+        }
+    </script>
+
+</body>
+</html>
