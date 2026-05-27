@@ -2,124 +2,108 @@
 <html lang="el">
 <head>
     <meta charset="UTF-8">
-    <title>POS ΡΩΞΑΝΗ PRO</title>
-    <style>
-        body { background: #000; color: white; font-family: sans-serif; font-weight: bold; margin: 0; padding: 10px; overflow: hidden; }
-        .container { display: grid; grid-template-columns: 380px 1fr 1fr; gap: 15px; height: 95vh; }
-        .box { background: #1a1a1a; padding: 15px; border-radius: 8px; border: 2px solid #333; display: flex; flex-direction: column; overflow: hidden; }
-        h1, h3 { color: #00FF00; text-align: center; margin: 0 0 10px 0; }
-        
-        /* ΛΙΣΤΑ ΠΑΡΑΓΓΕΛΙΑΣ */
-        #orderList { background: white; color: black; padding: 15px; border-radius: 5px; flex-grow: 1; overflow-y: auto; font-family: monospace; font-size: 16px; min-height: 200px; font-weight: 900; }
-        
-        /* ΚΟΥΜΠΙΑ ΑΡΙΣΤΕΡΑ */
-        .btn-send { background: #007bff; color: white; padding: 18px; font-size: 18px; margin-top: 10px; border-radius: 8px; cursor: pointer; border: none; font-weight: 900; }
-        .btn-bill { background: #28a745; color: white; padding: 18px; font-size: 18px; margin-top: 5px; border-radius: 8px; cursor: pointer; border: none; font-weight: 900; }
-        .btn-clear { background: #dc3545; color: white; padding: 12px; margin-top: 5px; border-radius: 8px; cursor: pointer; border: none; font-weight: bold; }
-        .btn-daily { background: #ffc107; color: black; padding: 15px; margin-top: 10px; border-radius: 8px; cursor: pointer; border: none; font-weight: 900; flex: 1; font-size: 16px; }
-        .btn-reset { background: #6c757d; color: white; padding: 15px; margin-top: 10px; border-radius: 8px; cursor: pointer; border: none; font-weight: 900; flex: 1; font-size: 14px; }
-        
-        /* DELIVERY */
-        .delivery-inputs { display: grid; grid-template-columns: 1fr 1fr; gap: 5px; margin-bottom: 10px; padding: 10px; background: #252525; border-radius: 5px; border: 1px solid #444; }
-        .delivery-inputs input { padding: 12px; background: #333; color: white; border: 1px solid #555; border-radius: 4px; font-size: 16px; width: 90%; font-weight: bold; }
-        .btn-delivery-start { grid-column: span 2; background: #ffc107; color: black; border: none; padding: 15px; border-radius: 4px; cursor: pointer; font-weight: 900; margin-top: 5px; font-size: 16px; }
-        
-        .table-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 5px; overflow-y: auto; }
-        .btn-table { position: relative; background: #333; color: white; padding: 10px 5px; border: 2px solid #444; height: 60px; font-size: 16px; cursor: pointer; font-weight: 900; }
-        .table-active { background: #856404 !important; border-color: #ffc107 !important; }
-        
-/* ΚΑΤΗΓΟΡΙΕΣ: Πιο μαζεμένες για να κερδίσουμε ύψος */
-#categories { 
-    display: grid; 
-    grid-template-columns: repeat(4, 1fr); /* 4 ανά σειρά */
-    gap: 4px; 
-}
-#categories button { 
-    background: #333; 
-    color: #ffff00; 
-    font-size: 12px; /* Μικρότερο γράμμα για να χωράει */
-    min-height: 45px; /* Χαμηλότερο ύψος */
-    cursor: pointer; 
-    border: 1px solid #555; 
-    border-radius: 4px; 
-    font-weight: 900; 
-    text-transform: uppercase;
-    padding: 2px;
-}
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pos License Generator</title>
 
-/* ΠΡΟΪΟΝΤΑ: Πιο πυκνά */
-#products { 
-    display: grid; 
-    grid-template-columns: 1fr 1fr; 
-    gap: 6px; 
-    margin-top: 10px; 
-    overflow-y: auto; 
-}
-#products button { 
-    background: #0056b3; 
-    color: white; 
-    min-height: 60px; /* Πιο κοντά κουμπιά */
-    font-size: 15px; 
-    cursor: pointer; 
-    border: 1px solid #004494; 
-    border-radius: 6px; 
-    font-weight: 900; 
-}
-        
-        #totalContainer { background: #000; color: #00FF00; padding: 15px; text-align: center; font-size: 32px; border: 2px solid #00FF00; margin-top: 5px; border-radius: 5px; font-weight: 900; }
+    <!-- Επιτρέπει στην εφαρμογή να τρέχει σε πλήρη οθόνη στο κινητό -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="mobile-web-app-capable" content="yes">
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        body {
+            background: linear-gradient(to bottom, #151515, #2c0e54, #151515);
+            color: #fff;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            padding: 20px;
+            text-align: center;
+        }
+        .container {
+            width: 100%;
+            max-width: 400px;
+            background: rgba(255, 255, 255, 0.05);
+            padding: 30px 20px;
+            border-radius: 20px;
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+            backdrop-filter: blur(4px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        h2 {
+            font-size: 24px;
+            margin-bottom: 30px;
+            font-weight: 600;
+            letter-spacing: 1px;
+            color: #e0b0ff;
+        }
+        input[type="date"] {
+            width: 100%;
+            padding: 15px;
+            font-size: 18px;
+            border-radius: 12px;
+            border: 2px solid #7e08ec;
+            background-color: #202121;
+            color: #fff;
+            margin-bottom: 20px;
+            text-align: center;
+            outline: none;
+        }
+        button {
+            width: 100%;
+            padding: 15px;
+            font-size: 18px;
+            font-weight: bold;
+            background: linear-gradient(135deg, #7e08ec, #a13bf7);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(126, 8, 236, 0.4);
+            transition: transform 0.1s ease;
+            letter-spacing: 2px;
+            -webkit-tap-highlight-color: transparent;
+        }
+        button:active {
+            transform: scale(0.98);
+        }
+        #result {
+            color: #fffb00;
+            margin-top: 35px;
+            font-size: 32px;
+            font-weight: 800;
+            letter-spacing: 2px;
+            text-shadow: 0 0 10px rgba(255, 251, 0, 0.5);
+            word-wrap: break-word;
+        }
     </style>
 </head>
-<body onload="initApp()">
+<body>
+
     <div class="container">
-        <div class="box">
-            <h1>ΡΩΞΑΝΗ</h1>
-            <div id="orderList"></div>
-            
-            <div id="totalContainer">
-                <span id="totalAmount">0.00€</span>
-            </div>
-
-            <button class="btn-send" onclick="sendToKitchen()">ΑΠΟΣΤΟΛΗ (ΚΟΥΖΙΝΑ)</button>
-            <button class="btn-bill" onclick="printFinalBill()">ΛΟΓΑΡΙΑΣΜΟΣ (ΣΥΝΟΛΟ)</button>
-            <button class="btn-clear" onclick="clearCurrentScreen()">ΑΚΥΡΩΣΗ ΝΕΩΝ</button>
-            
-            <div style="display: flex; gap: 5px;">
-                <button class="btn-daily" onclick="showDailyTotal()">💰 ΤΑΜΕΙΟ</button>
-                <button class="btn-reset" onclick="resetDailyTotal()">♻️ ΜΗΔΕΝ</button>
-            </div>
-
-            <button onclick="window.location.href='admin.html'" style="margin-top:10px; background:#444; color:white; border:none; padding:12px; border-radius:5px; cursor:pointer; font-weight:bold; font-size:14px;">⚙ ΡΥΘΜΙΣΕΙΣ (ADMIN)</button>
-        </div>
-
-        <div class="box">
-            <h3>DELIVERY / ΤΡΑΠΕΖΙΑ</h3>
-<div class="delivery-inputs" style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px; width: 100%; box-sizing: border-box;">
-    <input id="cust_tel" placeholder="Τηλέφωνο" onkeyup="checkCustomer(this.value)" style="grid-column: span 2; width: 100%; box-sizing: border-box; padding: 10px;">
-    <input id="cust_name" placeholder="Όνομα Πελάτη" style="grid-column: span 2; width: 100%; box-sizing: border-box; padding: 10px;">
-    <input id="cust_addr" placeholder="Διεύθυνση" style="grid-column: span 1; width: 100%; box-sizing: border-box; padding: 10px;">
-    <input id="cust_floor" placeholder="Όροφος" style="grid-column: span 1; width: 100%; box-sizing: border-box; padding: 10px;">
-    <input id="cust_notes" placeholder="Σχόλια" style="grid-column: span 2; width: 100%; box-sizing: border-box; padding: 10px;">
-    <button class="btn-delivery-start" onclick="startDelivery()" style="grid-column: span 2; padding: 15px; cursor: pointer;">ΕΝΑΡΞΗ DELIVERY</button>
-</div>
-            <div id="tableContainer" class="table-grid"></div>
-        </div>
-
-        <div class="box">
-            <h3>ΜΕΝΟΥ</h3>
-            <div id="categories"></div>
-            <div id="products"></div>
-        </div>
+        <h2>Pos License Generator</h2>
+        <input type="date" id="targetDate">
+        <button onclick="generate()">MAKE PIN</button>
+        <h1 id="result"></h1>
     </div>
 
-    <div id="extrasModal" style="display:none; position:fixed; z-index:9999; left:0; top:0; width:100%; height:100%; background:rgba(0,0,0,0.95);">
-        <div style="background:#222; margin:5% auto; padding:20px; border:3px solid #00FF00; width:85%; max-width:700px; border-radius:15px; text-align:center;">
-            <h2 id="modalTitle" style="color:#00FF00; margin-bottom:20px; font-size:28px;">ΕΠΙΛΟΓΕΣ</h2>
-            <div id="extrasContainer" style="display:grid; grid-template-columns: 1fr 1fr; gap:12px; margin-bottom:20px;">
-                </div>
-            <button onclick="closeExtras()" style="background:#ff4444; color:white; padding:20px; width:100%; border:none; border-radius:10px; font-weight:900; font-size:20px; cursor:pointer;">ΑΚΥΡΩΣΗ / ΚΛΕΙΣΙΜΟ</button>
-        </div>
-    </div>
+    <script>
+        function generate() {
+            let d = document.getElementById('targetDate').value;
+            if(!d) return;
+            let parts = d.split('-');
+            let day = parseInt(parts[2]) + 22; 
+            let pin = "S" + parts[0] + parts[1] + day;
+            document.getElementById('result').innerText = pin;
+        }
+    </script>
 
-    <script src="app.js"></script>
 </body>
 </html>
